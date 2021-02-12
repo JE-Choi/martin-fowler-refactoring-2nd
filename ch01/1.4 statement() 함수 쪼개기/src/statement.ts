@@ -19,8 +19,7 @@ const statement = ({
   /**
    * 설명: 한번의 공연에 대한 요금을 계산함
    * @description 🙄 불변하는 값은 매개변수로 전달
-   * @param aPerformance
-   * @param play
+   * @param param0
    */
   const amountFor = ({
     aPerformance,
@@ -49,15 +48,15 @@ const statement = ({
     // 함수 안에서 값이 바뀌는 변수 반환
     return result;
   };
-
   /**
    * 적립포인트 계산
+   * @param param0
    */
   const volumeCreditsFor = ({
     aPerformance,
   }: {
     aPerformance: Readonly<Performances>;
-  }) => {
+  }): number => {
     let result: number = 0; // 포인트
     // 포인트 적립(관객이 30명초과일 경우, 초과한 만큼 적립)
     result += Math.max(aPerformance.audience - 30, 0);
@@ -67,16 +66,21 @@ const statement = ({
     }
     return result;
   };
+  /**
+   * 통화 format
+   * @param aNumber
+   */
+  const format = (aNumber: number): string => {
+    return new Intl.NumberFormat("en-US", {
+      style: "currency",
+      currency: "USD",
+      minimumFractionDigits: 2,
+    }).format(aNumber);
+  };
 
   let totalAmount: number = 0;
   let volumeCredits: number = 0; // 포인트
   let result: string = `청구 내역(고객명: ${invoice.customer})\n`; // 출력결과
-  // 통화 format
-  const format = new Intl.NumberFormat("en-US", {
-    style: "currency",
-    currency: "USD",
-    minimumFractionDigits: 2,
-  }).format;
 
   for (let perf of invoice.performances) {
     volumeCredits += volumeCreditsFor({ aPerformance: perf });
