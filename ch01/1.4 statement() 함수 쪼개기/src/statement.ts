@@ -88,7 +88,18 @@ const statement = ({
     }
     return volumeCredits;
   };
-  let totalAmount: number = 0;
+
+  /**
+   * 합계
+   */
+  const totalAmount = (): number => {
+    let result: number = 0;
+    for (let perf of invoice.performances) {
+      result += amountFor({ aPerformance: perf });
+    }
+    return result;
+  };
+
   let result: string = `청구 내역(고객명: ${invoice.customer})\n`; // 출력결과
 
   for (let perf of invoice.performances) {
@@ -96,10 +107,9 @@ const statement = ({
     result += `${playFor({ aPerformance: perf }).name}: ${usd(
       amountFor({ aPerformance: perf })
     )} (${perf.audience}석)\n`;
-    totalAmount += amountFor({ aPerformance: perf });
   }
 
-  result += `총액: ${usd(totalAmount)}\n`;
+  result += `총액: ${usd(totalAmount())}\n`;
   result += `적립 포인트: ${totalVolumeCredits()}점 \n`;
   return result;
 };
