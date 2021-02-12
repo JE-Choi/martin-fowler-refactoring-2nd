@@ -62,7 +62,6 @@ const statement = ({
 
   for (let perf of invoice.performances) {
     const play: PlaysInfo = playFor({ aPerformance: perf });
-    let thisAmount = amountFor({ aPerformance: perf });
     // 포인트 적립(관객이 30명초과일 경우, 초과한 만큼 적립)
     volumeCredits += Math.max(perf.audience - 30, 0);
     // 희극 관객 5명마다 추가 포인트를 제공한다.
@@ -71,10 +70,10 @@ const statement = ({
     }
 
     // 청구 내역을 출력한다.
-    result += `${play.name}: ${format(thisAmount / 100)} (${
-      perf.audience
-    }석)\n`;
-    totalAmount += thisAmount;
+    result += `${play.name}: ${format(
+      amountFor({ aPerformance: perf }) / 100
+    )} (${perf.audience}석)\n`;
+    totalAmount += amountFor({ aPerformance: perf });
   }
   result += `총액: ${format(totalAmount / 100)}\n`;
   result += `적립 포인트: ${volumeCredits}점 \n`;
