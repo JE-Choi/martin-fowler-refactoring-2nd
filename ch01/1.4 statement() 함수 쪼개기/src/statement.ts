@@ -8,41 +8,6 @@ const statement = ({
   invoice: Readonly<Invoices>;
   plays: Readonly<Plays>;
 }): string => {
-  /**
-   * 설명: 한번의 공연에 대한 요금을 계산함
-   * @description 🙄 불변하는 값은 매개변수로 전달
-   * @param perf
-   * @param play
-   */
-  const amountFor = ({
-    perf,
-    play,
-  }: {
-    perf: Readonly<Performances>;
-    play: Readonly<PlaysInfo>;
-  }): number => {
-    let thisAmount = 0; // 변수를 초기화하는 코드
-    switch (play.type) {
-      case "tragedy": // 비극
-        thisAmount = 40000; // 장르로 비용 측정
-        if (perf.audience > 30) {
-          // 규모로 비용측정
-          thisAmount += 1000 * (perf.audience - 30);
-        }
-        break;
-      case "comedy": // 희극
-        thisAmount = 30000;
-        if (perf.audience > 20) {
-          thisAmount += 10000 + 500 * (perf.audience - 20);
-        }
-        thisAmount += 300 * perf.audience;
-        break;
-      default:
-        throw new Error(`알 수 없는 장르: ${play.type}`);
-    }
-    // 함수 안에서 값이 바뀌는 변수 반환
-    return thisAmount;
-  };
   let totalAmount: number = 0;
   let volumeCredits: number = 0; // 포인트
   let result: string = `청구 내역(고객명: ${invoice.customer})\n`; // 출력결과
@@ -71,6 +36,42 @@ const statement = ({
   }
   result += `총액: ${format(totalAmount / 100)}\n`;
   result += `적립 포인트: ${volumeCredits}점 \n`;
+  return result;
+};
+
+/**
+ * 설명: 한번의 공연에 대한 요금을 계산함
+ * @description 🙄 불변하는 값은 매개변수로 전달
+ * @param perf
+ * @param play
+ */
+const amountFor = ({
+  perf,
+  play,
+}: {
+  perf: Readonly<Performances>;
+  play: Readonly<PlaysInfo>;
+}): number => {
+  let result = 0; // 변수를 초기화하는 코드
+  switch (play.type) {
+    case "tragedy": // 비극
+      result = 40000; // 장르로 비용 측정
+      if (perf.audience > 30) {
+        // 규모로 비용측정
+        result += 1000 * (perf.audience - 30);
+      }
+      break;
+    case "comedy": // 희극
+      result = 30000;
+      if (perf.audience > 20) {
+        result += 10000 + 500 * (perf.audience - 20);
+      }
+      result += 300 * perf.audience;
+      break;
+    default:
+      throw new Error(`알 수 없는 장르: ${play.type}`);
+  }
+  // 함수 안에서 값이 바뀌는 변수 반환
   return result;
 };
 
