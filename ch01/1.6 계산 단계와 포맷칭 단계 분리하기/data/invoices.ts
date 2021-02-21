@@ -24,6 +24,7 @@ export type Invoices = {
   performances: Performances[];
 };
 export type Performances = {
+  [key: string]: string | number;
   playID: string;
   audience: number; // 청중
 };
