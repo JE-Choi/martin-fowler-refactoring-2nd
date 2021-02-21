@@ -1,18 +1,16 @@
-import { Invoices, Performances } from "../data/invoices.js";
-import { Plays } from "../data/plays.js";
+import {Invoices, Performances} from "../data/invoices.js";
+import {Plays} from "../data/plays.js";
+type Params = {
+  invoice: Invoices;
+  plays: Plays;
+};
+const statement = ({invoice, plays}: Params): string => {
+  const statementData = {};
+  return renderPlainText({data: statementData, invoice, plays});
+};
 
-const statement = ({
-  invoice,
-  plays,
-}: {
-  invoice: Readonly<Invoices>;
-  plays: Readonly<Plays>;
-}): string => {
-  const playFor = ({
-    aPerformance,
-  }: {
-    aPerformance: Readonly<Performances>;
-  }) => {
+const renderPlainText = ({data, invoice, plays}: Readonly<{data: {}} & Params>): string => {
+  const playFor = ({aPerformance}: {aPerformance: Readonly<Performances>}) => {
     return plays[aPerformance.playID];
   };
 
@@ -21,13 +19,9 @@ const statement = ({
    * @description 🙄 불변하는 값은 매개변수로 전달
    * @param param0
    */
-  const amountFor = ({
-    aPerformance,
-  }: {
-    aPerformance: Readonly<Performances>;
-  }): number => {
+  const amountFor = ({aPerformance}: {aPerformance: Readonly<Performances>}): number => {
     let result = 0; // 변수를 초기화하는 코드
-    switch (playFor({ aPerformance })?.type) {
+    switch (playFor({aPerformance})?.type) {
       case "tragedy": // 비극
         result = 40000; // 장르로 비용 측정
         if (aPerformance.audience > 30) {
@@ -43,7 +37,7 @@ const statement = ({
         result += 300 * aPerformance.audience;
         break;
       default:
-        throw new Error(`알 수 없는 장르: ${playFor({ aPerformance })?.type}`);
+        throw new Error(`알 수 없는 장르: ${playFor({aPerformance})?.type}`);
     }
     // 함수 안에서 값이 바뀌는 변수 반환
     return result;
@@ -52,16 +46,12 @@ const statement = ({
    * 적립포인트 계산
    * @param param0
    */
-  const volumeCreditsFor = ({
-    aPerformance,
-  }: {
-    aPerformance: Readonly<Performances>;
-  }): number => {
+  const volumeCreditsFor = ({aPerformance}: {aPerformance: Readonly<Performances>}): number => {
     let result: number = 0; // 포인트
     // 포인트 적립(관객이 30명초과일 경우, 초과한 만큼 적립)
     result += Math.max(aPerformance.audience - 30, 0);
     // 희극 관객 5명마다 추가 포인트를 제공한다.
-    if (playFor({ aPerformance: aPerformance })?.type === "comedy") {
+    if (playFor({aPerformance: aPerformance})?.type === "comedy") {
       result += Math.floor(aPerformance.audience / 5);
     }
     return result;
@@ -84,7 +74,7 @@ const statement = ({
   const totalVolumeCredits = (): number => {
     let volumeCredits: number = 0; // 포인트
     for (let perf of invoice.performances) {
-      volumeCredits += volumeCreditsFor({ aPerformance: perf });
+      volumeCredits += volumeCreditsFor({aPerformance: perf});
     }
     return volumeCredits;
   };
@@ -95,7 +85,7 @@ const statement = ({
   const totalAmount = (): number => {
     let result: number = 0;
     for (let perf of invoice.performances) {
-      result += amountFor({ aPerformance: perf });
+      result += amountFor({aPerformance: perf});
     }
     return result;
   };
@@ -104,9 +94,7 @@ const statement = ({
 
   for (let perf of invoice.performances) {
     // 청구 내역을 출력한다.
-    result += `${playFor({ aPerformance: perf })?.name}: ${usd(
-      amountFor({ aPerformance: perf })
-    )} (${perf.audience}석)\n`;
+    result += `${playFor({aPerformance: perf})?.name}: ${usd(amountFor({aPerformance: perf}))} (${perf.audience}석)\n`;
   }
 
   result += `총액: ${usd(totalAmount())}\n`;
