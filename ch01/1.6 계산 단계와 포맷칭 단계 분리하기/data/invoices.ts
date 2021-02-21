@@ -19,6 +19,7 @@ export const invoices: Invoices[] = [
 ];
 
 export type Invoices = {
+  [key: string]: string | Performances[];
   customer: string;
   performances: Performances[];
 };

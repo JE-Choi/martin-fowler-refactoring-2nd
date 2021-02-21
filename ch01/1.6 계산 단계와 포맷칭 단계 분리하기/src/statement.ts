@@ -4,12 +4,17 @@ type Params = {
   invoice: Invoices;
   plays: Plays;
 };
+type StatementDataType = {customer: Invoices["customer"]; performances: Invoices["performances"]};
+
 const statement = ({invoice, plays}: Params): string => {
-  const statementData = {};
-  return renderPlainText({data: statementData, invoice, plays});
+  let statementData: StatementDataType = {
+    customer: invoice.customer,
+    performances: invoice.performances,
+  };
+  return renderPlainText({data: statementData, plays});
 };
 
-const renderPlainText = ({data, invoice, plays}: Readonly<{data: {}} & Params>): string => {
+const renderPlainText = ({data, plays}: Readonly<{data: StatementDataType} & Pick<Params, "plays">>): string => {
   const playFor = ({aPerformance}: {aPerformance: Readonly<Performances>}) => {
     return plays[aPerformance.playID];
   };
@@ -73,7 +78,7 @@ const renderPlainText = ({data, invoice, plays}: Readonly<{data: {}} & Params>):
    */
   const totalVolumeCredits = (): number => {
     let volumeCredits: number = 0; // 포인트
-    for (let perf of invoice.performances) {
+    for (let perf of data.performances) {
       volumeCredits += volumeCreditsFor({aPerformance: perf});
     }
     return volumeCredits;
@@ -84,15 +89,15 @@ const renderPlainText = ({data, invoice, plays}: Readonly<{data: {}} & Params>):
    */
   const totalAmount = (): number => {
     let result: number = 0;
-    for (let perf of invoice.performances) {
+    for (let perf of data.performances) {
       result += amountFor({aPerformance: perf});
     }
     return result;
   };
 
-  let result: string = `청구 내역(고객명: ${invoice.customer})\n`; // 출력결과
+  let result: string = `청구 내역(고객명: ${data.customer})\n`; // 출력결과
 
-  for (let perf of invoice.performances) {
+  for (let perf of data.performances) {
     // 청구 내역을 출력한다.
     result += `${playFor({aPerformance: perf})?.name}: ${usd(amountFor({aPerformance: perf}))} (${perf.audience}석)\n`;
   }
