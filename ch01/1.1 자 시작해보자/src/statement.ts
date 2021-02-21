@@ -1,5 +1,5 @@
-import { Invoices, Performances, invoices } from "../data/invoices.js";
-import { Plays, PlaysInfo, plays } from "../data/plays.js";
+import {Invoices, Performances, invoices} from "../data/invoices.js";
+import {Plays, PlaysInfo, plays} from "../data/plays.js";
 function statement(invoice: Invoices, plays: Plays) {
   let totalAmount: number = 0;
   let volumeCredits: number = 0; // 포인트
@@ -40,9 +40,7 @@ function statement(invoice: Invoices, plays: Plays) {
     }
 
     // 청구 내역을 출력한다.
-    result += `${play.name}: ${format(thisAmount / 100)} (${
-      perf.audience
-    }석)\n`;
+    result += `${play.name}: ${format(thisAmount / 100)} (${perf.audience}석)\n`;
     totalAmount += thisAmount;
   }
   result += `총액: ${format(totalAmount / 100)}\n`;
