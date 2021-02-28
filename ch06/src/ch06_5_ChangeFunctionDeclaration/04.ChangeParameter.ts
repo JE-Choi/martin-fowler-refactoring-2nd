@@ -1,14 +1,5 @@
 class ChangeParameter {
-    /**
-     * @deprecated
-     * @param aCustomer
-     */
-    inNewEngland(aCustomer) {
-        const stateCode = aCustomer.address.state;
-        return this.new_inNewEngland(stateCode);
-    }
-
-    new_inNewEngland(stateCode) {
+    inNewEngland(stateCode) {
         return ["MA", "CT", "VT", "NH", "RI"].includes(stateCode);
     }
 }
@@ -29,7 +20,7 @@ const someCustomers: Customer[] = [
     {name: "고객7", address: {state: "KK"}},
 ];
 const changeParameter: ChangeParameter = new ChangeParameter();
-const newEnglanders = someCustomers.filter(v => changeParameter.new_inNewEngland(v.address.state));
+const newEnglanders = someCustomers.filter(v => changeParameter.inNewEngland(v.address.state));
 
 const expectVal:number = 5;
 console.log(newEnglanders.length === expectVal);
