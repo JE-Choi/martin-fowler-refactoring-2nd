@@ -16,28 +16,8 @@ class PerformanceCalculator {
    * @description 🙄 불변하는 값은 매개변수로 전달
    * @param param0
    */
-  get amount() {
-    let result = 0; // 변수를 초기화하는 코드
-    switch (this.play.type) {
-      case "tragedy": // 비극
-        result = 40000; // 장르로 비용 측정
-        if (this.performance.audience > 30) {
-          // 규모로 비용측정
-          result += 1000 * (this.performance.audience - 30);
-        }
-        break;
-      case "comedy": // 희극
-        result = 30000;
-        if (this.performance.audience > 20) {
-          result += 10000 + 500 * (this.performance.audience - 20);
-        }
-        result += 300 * this.performance.audience;
-        break;
-      default:
-        throw new Error(`알 수 없는 장르: ${this.play.type}`);
-    }
-    // 함수 안에서 값이 바뀌는 변수 반환
-    return result;
+  get amount(): number {
+    throw "서브클래스에서 처리하도록 설계되었습니다.";
   }
 
   /**
@@ -56,4 +36,24 @@ class PerformanceCalculator {
   }
 }
 
+export class TragedyCalculator extends PerformanceCalculator {
+  get amount() {
+    let result = 40000;
+    // 규모로 비용측정
+    if (this.performance.audience > 30) {
+      result += 1000 * (this.performance.audience - 30);
+    }
+    return result;
+  }
+}
+export class ComedyCalculator extends PerformanceCalculator {
+  get amount() {
+    let result = 30000;
+    if (this.performance.audience > 20) {
+      result += 10000 + 500 * (this.performance.audience - 20);
+    }
+    result += 300 * this.performance.audience;
+    return result;
+  }
+}
 export default PerformanceCalculator;
