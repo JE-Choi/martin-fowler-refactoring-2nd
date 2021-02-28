@@ -1,4 +1,5 @@
-function circum(radius){
+function circumference(radius: number) {
     return 2 * Math.PI * radius;
 }
-console.log(circum(1));
+
+console.log(circumference(1));
