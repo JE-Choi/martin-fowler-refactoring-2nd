@@ -1,7 +1,7 @@
 import {Invoices, Performances} from "../data/invoices.js";
 import {Plays, PlaysInfo} from "../data/plays.js";
 import {StatementDataType} from "../data/type.js";
-import createStatementData from "./createStatementData.js";
+import StatementDataCreator from "./StatementDataCreator.js";
 type Params = {
   invoice: Invoices;
   plays: Plays;
@@ -20,7 +20,7 @@ const usd = (aNumber: number): string => {
 };
 
 const statement = ({invoice, plays}: Params): string => {
-  return renderPlainText(createStatementData(invoice, plays));
+  return renderPlainText(new StatementDataCreator(invoice, plays).create());
 };
 
 const renderPlainText = (data: Partial<StatementDataType>): string => {
@@ -37,7 +37,7 @@ const renderPlainText = (data: Partial<StatementDataType>): string => {
 };
 
 export const htmlStatement = ({invoice, plays}: Params): string => {
-  return renderHtml(createStatementData(invoice, plays));
+  return renderHtml(new StatementDataCreator(invoice, plays).create());
 };
 
 const renderHtml = (data: Partial<StatementDataType>): string => {

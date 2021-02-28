@@ -1,15 +1,23 @@
-import {Performances} from "../data/invoices";
-import {PlaysInfo} from "../data/plays";
+import {Performances} from "../data/invoices.js";
+import {PlaysInfo} from "../data/plays.js";
 /**
  * 공연료 계산기 클래스
  */
 class PerformanceCalculator {
-  performance;
-  play;
-  constructor(aPerformance, aPlay) {
-    this.performance = aPerformance;
-    this.play = aPlay;
-  }
+  protected constructor(public performance: Performances, public play: PlaysInfo) {}
+
+  static create = (aPerformance: Performances, aPlay: PlaysInfo) => {
+    switch (
+      aPlay.type // ← 장르에 대응하는, 공연료 계산기 생성
+    ) {
+      case "tragedy":
+        return new TragedyCalculator(aPerformance, aPlay);
+      case "comedy":
+        return new ComedyCalculator(aPerformance, aPlay);
+      default:
+        throw Error(`알 수 없는 장르: ${aPlay.type}`);
+    }
+  };
 
   /**
    * 설명: 한번의 공연에 대한 요금을 계산함
@@ -17,7 +25,7 @@ class PerformanceCalculator {
    * @param param0
    */
   get amount(): number {
-    throw "서브클래스에서 처리하도록 설계되었습니다.";
+    throw new Error("서브클래스에서 처리하도록 설계되었습니다.");
   }
 
   /**

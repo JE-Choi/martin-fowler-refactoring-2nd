@@ -1,8 +1,8 @@
-import createStatementData from "./createStatementData";
-import {invoices} from "../data/invoices.js";
-import {plays} from "../data/plays.js";
+import StatementDataCreator from "../StatementDataCreator";
+import {invoices} from "../../data/invoices.js";
+import {plays} from "../../data/plays.js";
 export const createStatementDataTest = (): void => {
-  const result = createStatementData(invoices[0]!, plays);
+  const result = new StatementDataCreator(invoices[0]!, plays).create();
   console.log(result.performances!.length);
 
   for (let i = 0; i < result.performances.length; i++) {
