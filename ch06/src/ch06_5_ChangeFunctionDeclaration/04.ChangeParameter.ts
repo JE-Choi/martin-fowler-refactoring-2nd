@@ -1,6 +1,11 @@
 class ChangeParameter {
     inNewEngland(aCustomer) {
-        return ["MA", "CT", "VT", "NH", "RI"].includes(aCustomer.address.state);
+        const stateCode = aCustomer.address.state;
+        return this.new_inNewEngland(stateCode);
+    }
+
+    new_inNewEngland(stateCode) {
+        return ["MA", "CT", "VT", "NH", "RI"].includes(stateCode);
     }
 }
 
