@@ -1,7 +1,16 @@
 class AddParameter {
     reservations: string[] = [];
 
+    /**
+     * @deprecated
+     * @param customer
+     */
     addReservation(customer: string) {
+        this.new_addReservation(customer, false);
+    }
+
+    new_addReservation(customer: string, isPriority:boolean) {
+        console.assert(isPriority === true || isPriority === false);
         this.reservations.push(customer)
     }
 }
