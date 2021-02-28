@@ -6,8 +6,8 @@
         private _title: string = "";
         private _country: string = "";
 
-        constructor(data: { name?: string, country: string, title?: string }) {
-            this._title = data.title !== undefined ? data.title : data.name;
+        constructor(data: { title: string, country: string}) {
+            this._title = data.title;
             this._country = data.country;
         }
 
@@ -29,7 +29,7 @@
     }
 
     function makeString(): string {
-        const organization: Organization = new Organization({name: "애크미 구스베리", country: "GB"});
+        const organization: Organization = new Organization({title: "애크미 구스베리", country: "GB"});
         return `${organization.title}: ${organization.country}`;
     }
 
