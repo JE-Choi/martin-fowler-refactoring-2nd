@@ -1,4 +1,8 @@
 class ChangeParameter {
+    /**
+     * @deprecated
+     * @param aCustomer
+     */
     inNewEngland(aCustomer) {
         const stateCode = aCustomer.address.state;
         return this.new_inNewEngland(stateCode);
@@ -25,7 +29,7 @@ const someCustomers: Customer[] = [
     {name: "고객7", address: {state: "KK"}},
 ];
 const changeParameter: ChangeParameter = new ChangeParameter();
-const newEnglanders = someCustomers.filter(v => changeParameter.inNewEngland(v));
+const newEnglanders = someCustomers.filter(v => changeParameter.new_inNewEngland(v.address.state));
 
 const expectVal:number = 5;
 console.log(newEnglanders.length === expectVal);
