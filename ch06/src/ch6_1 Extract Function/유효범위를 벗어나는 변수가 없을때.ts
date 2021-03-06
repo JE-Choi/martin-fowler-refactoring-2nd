@@ -5,12 +5,22 @@ type Invoice = {
     }[],
     dueDate?: Date
 }
-
 function printOwing(invoice: Invoice) {
+    function printBanner(){
+        console.log("*******************");
+        console.log("******고객채무*****");
+        console.log("*******************");
+    }
+
+    function printDetails(){
+        console.log(`고객명: ${invoice.customer}`);
+        console.log(`채무액: ${outStanding}`);
+        console.log(`마감일: ${invoice.dueDate.toLocaleDateString()}`);
+    }
+
     let outStanding = 0;
-    console.log("*******************");
-    console.log("*******고객채무******");
-    console.log("*******************");
+
+    printBanner();
 
     // 미 해결 채무(outStanding)을 계산한다.
     for (const o of invoice.orders) {
@@ -20,9 +30,7 @@ function printOwing(invoice: Invoice) {
     const today: Date = new Date();
     invoice.dueDate = new Date(today.getFullYear(), today.getMonth(), today.getDate() + 30);
 
-    console.log(`고객명: ${invoice.customer}`);
-    console.log(`채무액: ${outStanding}`);
-    console.log(`마감일: ${invoice.dueDate.toLocaleDateString()}`);
+    printDetails();
 
 }
 
