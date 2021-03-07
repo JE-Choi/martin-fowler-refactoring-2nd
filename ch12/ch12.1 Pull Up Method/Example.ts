@@ -12,7 +12,7 @@ class Employee extends Party{
 
 class Department extends Party{
     monthlyCost: number = 1;
-    get totalAnnualCost() {
+    get annualCost() {
         return this.monthlyCost * 12;
     }
 }
