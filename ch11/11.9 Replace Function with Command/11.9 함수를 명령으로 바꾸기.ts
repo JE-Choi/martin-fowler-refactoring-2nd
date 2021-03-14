@@ -4,16 +4,29 @@
 import {Medical} from "./Medical";
 
 {
-    const score = (candidate, medicalExam: Medical, scoringGuide) => {
-        let result = 0;
-        let healthLevel = 0;
-        let highMedicalRiskFlag = false;
+    class Score {
+        candidate;
+        medicalExam: Medical;
+        scoringGuide
 
-        if (medicalExam.isSmoker) {
-            healthLevel += 10;
-            highMedicalRiskFlag = true;
+
+        constructor(candidate, medicalExam: Medical, scoringGuide) {
+            this.candidate = candidate;
+            this.medicalExam = medicalExam;
+            this.scoringGuide = scoringGuide;
         }
-        result -= Math.max(healthLevel - 5, 0);
-        return result;
+
+        execute = () => {
+            let result = 0;
+            let healthLevel = 0;
+            let highMedicalRiskFlag = false;
+
+            if (this.medicalExam.isSmoker) {
+                healthLevel += 10;
+                highMedicalRiskFlag = true;
+            }
+            result -= Math.max(healthLevel - 5, 0);
+            return result;
+        }
     }
 }
