@@ -9,6 +9,10 @@ class HeatingPlan {
         return (bottom >= this._temperatureRange.low)
             && (top <= this._temperatureRange.high);
     }
+
+    xxNEWwithinRange = (aNumberRange: { low: number, high: number }) => {
+        return this.withinRange(aNumberRange.low, aNumberRange.high);
+    }
 }
 
 export default HeatingPlan;
