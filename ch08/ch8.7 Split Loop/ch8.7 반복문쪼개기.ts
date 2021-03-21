@@ -5,19 +5,12 @@
     }
 
     const totalSalary = () => {
-        let totalSalary = 0;
-        for (const p of people) {
-            totalSalary += p.salary;
-        }
-        return totalSalary;
+        return people.reduce((total, p) => total+ p.salary, 0);
     }
 
     const youngestAge = () => {
-        let youngest = people[0] ? people[0].age : Infinity;
-        for (const p of people) {
-            if (p.age < youngest) youngest = p.age;
-        }
-        return youngest;
+        // people의 모든 age를 펼쳐서 배열로 만들고 그걸 Math.min 돌림
+        return Math.min(...people.map(p => p.age));
     }
 
     const p1: People = {age: 20, salary: 3000};
