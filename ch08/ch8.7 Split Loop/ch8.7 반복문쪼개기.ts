@@ -14,6 +14,9 @@
     // 관련없는 두가지 계산을 수행중
     for (const p of people) {
         if (p.age < youngest) youngest = p.age;
+    }
+
+    for (const p of people) {
         totalSalary += p.salary;
     }
 
