@@ -1,6 +1,6 @@
 {
     type BirdType = {
-        type: string;
+        type: '유럽 제비' | '아프리카 제비' | '노르웨이 파랑 앵무';
         name: string;
         numberOfCocounts: number;
         voltage: number;
@@ -14,15 +14,16 @@
             this.bird = bird;
         }
 
-        get plumage():string { // 깃털상태
+        get plumage(): string { // 깃털상태
             return '알수없다.';
         }
-        get airSpeedVelocity (): number | null{
+
+        get airSpeedVelocity(): number | null {
             return null;
         }
     }
 
-    class EuropeanSwallow extends Bird{
+    class EuropeanSwallow extends Bird {
         get plumage(): string {
             return '보통이다.';
         }
@@ -32,7 +33,7 @@
         }
     }
 
-    class AfricanSwallow extends Bird{
+    class AfricanSwallow extends Bird {
 
         get plumage(): string {
             return (this.bird.numberOfCocounts > 2) ? '그을렸다' : '예쁘다';
@@ -43,7 +44,7 @@
         }
     }
 
-    class NorwegianBlueSwallow extends Bird{
+    class NorwegianBlueSwallow extends Bird {
 
         get plumage(): string {
             return (this.bird.voltage > 100) ? '그을렸다' : '예쁘다';
@@ -54,20 +55,28 @@
         }
     }
 
-    const plumage = (bird: BirdType): string => { // 깃털상태
-        return new Bird(bird).plumage;
+    const createBird = (bird: BirdType): Bird => {
+        switch (bird.type) {
+            case '유럽 제비':
+                return new EuropeanSwallow(bird);
+            case '아프리카 제비':
+                return new AfricanSwallow(bird);
+            case'노르웨이 파랑 앵무':
+                return new NorwegianBlueSwallow(bird);
+            default:
+                return new Bird(bird);
+        }
     }
-
-    const airSpeedVelocity = (bird: BirdType): number | null => {// 비행속도
-        return new Bird(bird).airSpeedVelocity;
-    }
-
     const plumages = (birds: BirdType[]) => {
-        return new Map(birds.map((b) => [b.name, plumage(b)]));
+        return new Map(birds
+            .map((b) => createBird(b))
+            .map(bird => [bird.bird.name, bird.plumage]));
     }
 
     const speeds = (birds: BirdType[]) => {
-        return new Map(birds.map((b) => [b.name, airSpeedVelocity(b)]));
+        return new Map(birds
+            .map((b) => createBird(b))
+            .map(bird => [bird.bird.name, bird.airSpeedVelocity]));
     }
 
     const bird1: BirdType = {isNailed: false, name: "유럽 제비_name", numberOfCocounts: 1, type: "유럽 제비", voltage: 2};
