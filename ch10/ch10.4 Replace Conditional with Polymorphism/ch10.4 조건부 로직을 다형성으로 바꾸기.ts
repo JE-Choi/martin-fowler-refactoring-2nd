@@ -17,7 +17,7 @@
         get plumage():string { // 깃털상태
             switch (this.bird.type) {
                 case '유럽 제비':
-                    return '보통이다.';
+                    throw new Error('오류발생> 자식클래스로 처리하세요.');
                 case '아프리카 제비':
                     return (this.bird.numberOfCocounts > 2) ? '그을렸다' : '예쁘다';
                 case '노르웨이 파랑 앵무':
@@ -29,7 +29,7 @@
         get airSpeedVelocity (): number | null{
             switch (this.bird.type) {
                 case '유럽 제비':
-                    return 35;
+                    throw new Error('오류발생> 자식클래스로 처리하세요.');
                 case '아프리카 제비':
                     return 40 - 2 * this.bird.numberOfCocounts;
                 case '노르웨이 파랑 앵무':
@@ -38,6 +38,24 @@
                     return null;
             }
         }
+    }
+
+    class EuropeanSwallow extends Bird{
+        get plumage(): string {
+            return '보통이다.';
+        }
+
+        get airSpeedVelocity(): number | null {
+            return 35;
+        }
+    }
+
+    class AfricanSwallow extends Bird{
+
+    }
+
+    class NorwegianBlueSwallow extends Bird{
+
     }
 
     const plumage = (bird: BirdType): string => { // 깃털상태
