@@ -37,12 +37,16 @@
         return !aDate.isBefore(plan.summer.start) && !aDate.isAfter(plan.summer.end);
     }
 
+    const summerCharge = () =>{
+     return quantity * plan.summer.rate;
+    }
+
     const aDate: SeasonChecker = new SeasonChecker();
     let charge = 0;
     let quantity = 3;
     // 여름철이면 할인율 달라짐.
     if (isSummer()) {
-        charge = quantity * plan.summer.rate;
+        charge = summerCharge();
     } else {
         charge = quantity * plan.regular.rate + plan.regular.serviceCharge;
     }
