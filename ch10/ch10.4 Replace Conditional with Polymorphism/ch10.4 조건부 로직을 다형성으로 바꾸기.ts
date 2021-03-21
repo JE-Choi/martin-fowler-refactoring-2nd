@@ -15,28 +15,10 @@
         }
 
         get plumage():string { // 깃털상태
-            switch (this.bird.type) {
-                case '유럽 제비':
-                    throw new Error('오류발생> 자식클래스로 처리하세요.');
-                case '아프리카 제비':
-                    return (this.bird.numberOfCocounts > 2) ? '그을렸다' : '예쁘다';
-                case '노르웨이 파랑 앵무':
-                    return (this.bird.voltage > 100) ? '그을렸다' : '예쁘다';
-                default:
-                    return '알수없다.';
-            }
+            return '알수없다.';
         }
         get airSpeedVelocity (): number | null{
-            switch (this.bird.type) {
-                case '유럽 제비':
-                    throw new Error('오류발생> 자식클래스로 처리하세요.');
-                case '아프리카 제비':
-                    return 40 - 2 * this.bird.numberOfCocounts;
-                case '노르웨이 파랑 앵무':
-                    return (this.bird.isNailed) ? 0 : 10 + this.bird.voltage / 10;
-                default:
-                    return null;
-            }
+            return null;
         }
     }
 
@@ -52,10 +34,24 @@
 
     class AfricanSwallow extends Bird{
 
+        get plumage(): string {
+            return (this.bird.numberOfCocounts > 2) ? '그을렸다' : '예쁘다';
+        }
+
+        get airSpeedVelocity(): number | null {
+            return 40 - 2 * this.bird.numberOfCocounts;
+        }
     }
 
     class NorwegianBlueSwallow extends Bird{
 
+        get plumage(): string {
+            return (this.bird.voltage > 100) ? '그을렸다' : '예쁘다';
+        }
+
+        get airSpeedVelocity(): number | null {
+            return (this.bird.isNailed) ? 0 : 10 + this.bird.voltage / 10;
+        }
     }
 
     const plumage = (bird: BirdType): string => { // 깃털상태
