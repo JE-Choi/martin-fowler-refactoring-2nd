@@ -33,11 +33,15 @@
         }
     }
 
+    const isSummer = () =>{
+        return !aDate.isBefore(plan.summer.start) && !aDate.isAfter(plan.summer.end);
+    }
+
     const aDate: SeasonChecker = new SeasonChecker();
     let charge = 0;
     let quantity = 3;
     // 여름철이면 할인율 달라짐.
-    if (!aDate.isBefore(plan.summer.start) && !aDate.isAfter(plan.summer.end)) {
+    if (isSummer()) {
         charge = quantity * plan.summer.rate;
     } else {
         charge = quantity * plan.regular.rate + plan.regular.serviceCharge;
